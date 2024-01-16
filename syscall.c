@@ -76,7 +76,8 @@ void grep_syscall(int argc,char **cp_args){
 
 int main() {
     int choice, ch;
-    char *cp_args[3];  // Declare cp_args array outside the switch block
+    char input[20];
+    char *cp_args[3];  
     char *com[4];
 
     do {
@@ -92,31 +93,33 @@ int main() {
 
         switch (choice) {
             case 1:
-            	 printf("\nExecuting FORK Command...");
+            	 printf("\nExecuting FORK Command...\n");
                 fork_syscall();
                 break;
 
             case 2:
-                // Assign values to cp_args inside the case statement
+              
                 cp_args[0] = "cp";
                 cp_args[1] = "a.txt";
                 cp_args[2] = "b.txt";
-                printf("\nExecuting CP command..");
+                printf("\nExecuting CP command..\n");
                 cp_syscall(3, cp_args);
                 break;
             case 3:
             	com[0]="grep";
             	com[1]="-c";
-            	com[2]="pccoe";
+            	printf("\nEnter String to search in file : ");
+            	scanf("%s",input);
+            	com[2]=input;
             	com[3]="file.txt";
-            	printf("\nExecuting GREP Command...");
+            	printf("\nExecuting GREP Command...\n");
             	grep_syscall(4,com);
             	
             	break;
             case 4:
-            	printf("\nExecuting EXECL command...");
+            	printf("\nExecuting EXECL command...\n");
             	execl("/bin/ls", "ls", "-l", "/home/pccoe/Downloads/", (char *)0);
-        	perror("In exec()");
+        	perror("In exec()\n");
             	break;
             case 5:
             	exit(0);
@@ -127,7 +130,7 @@ int main() {
                 break;
         }
 
-        printf("Do you want to continue? Press 1: \n");
+        printf("\nDo you want to continue? Press 1: \n");
         scanf("%d", &ch);
     } while (ch == 1);
 
