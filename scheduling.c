@@ -3,10 +3,10 @@
 #include<string.h>
 #include<stdlib.h>
 
-int process[10],arrival_time[10],burst_time[10],waiting_time[10],turnaround_time[10];
+int process[10],arrival_time[10],burst_time[10],waiting_time[10],turnaround_time[10],temp_burst_time[10];
 float avg_waiting_time,avg_turnaround_time;
 int total_wait_time=0,total_turnaround_time=0;
-int n,i,j,temp;
+int n,i,j,temp,quant_time,y_n,sum,count,wait_time,tat_time;
 
 void part1(){
 	
@@ -111,10 +111,77 @@ void sjf_scheduling(){
 
 void round_robin_scheduling(){
 
+	printf("\nEnter How Many Process do u want : ");
+	scanf("%d",&n);
+	y_n=n;
+	
+	printf("\nEnter %d process : ",n);
+	for(i=0;i<n;i++){
+		scanf("%d",&process[i]);
+	}
+	
+	printf("enter %d arrival time:",n);
+	for(i=0;i<n;i++)
+	{
+	    scanf("%d",&arrival_time[i]);
+        }
+	printf("enter %d burst time:",n);
+	for(i=0;i<n;i++)
+	{
+	    scanf("%d",&burst_time[i]);
+	    temp_burst_time[i]=burst_time[i];
+	}
+	
+	printf("Enter the Time Quantum for the process: \n");  
+	scanf("%d", &quant_time);  
+	
+	
+	printf("\n Process No \t\t Burst Time \t\t TAT \t\t Waiting Time ");  
+	for(sum=0, i = 0; y_n!=0; )  
+	{  
+		if(temp_burst_time[i] <= quant_time && temp_burst_time[i] > 0) 
+		{  
+    			sum = sum + temp_burst_time[i];  
+    			temp_burst_time[i] = 0;  
+    			count=1;  
+    		}     
+    		else if(temp_burst_time[i] > 0)  
+    		{  
+        		temp_burst_time[i] = temp_burst_time[i] - quant_time;  
+        		sum = sum + quant_time;    
+    		}  
+    		if(temp_burst_time[i]==0 && count==1)  
+    		{  
+        		y_n--; 
+        		printf("\nProcess No[%d] \t\t %d\t\t\t\t %d\t\t\t %d", i+1, burst_time[i], sum-arrival_time[i], sum-arrival_time[i]-burst_time[i]);  
+        		wait_time = wait_time+sum-arrival_time[i]-burst_time[i];  
+        		tat_time = tat_time+sum-arrival_time[i];  
+        		count =0;     
+    		}  
+    		if(i==n-1)  
+    		{  
+        		i=0;  
+    		}  
+    		else if(arrival_time[i+1]<=sum)  
+    		{  
+        		i++;  
+    		}  
+    		else  
+    		{  
+        		i=0;  
+    		}  
+	}  
+	 
+	avg_waiting_time = wait_time * 1.0/n;  
+	avg_turnaround_time = tat_time * 1.0/n;  
+	printf("\n Average Turn Around Time: \t%f", avg_waiting_time);  
+	printf("\n Average Waiting Time: \t%f", avg_turnaround_time);  
+	
 }
 
 
 void priority_scheduling(){
+	
 
 }
 
